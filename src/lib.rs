@@ -1,6 +1,6 @@
 use chrono::prelude::*;
 use i2cdev::core::*;
-use i2cdev::linux::{LinuxI2CDevice, LinuxI2CError};
+use i2cdev::linux::LinuxI2CDevice;
 
 #[cfg(test)]
 mod tests {

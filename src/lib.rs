@@ -1,3 +1,9 @@
+//! # Pcf8523
+//!
+//! `Pcf8523` is a crate which abstracts away managing a PCF8523 device on an
+//! I2C bus. You can read the time and write the time, and someday in the future
+//! do other configuration tasks as well.
+
 use chrono::prelude::*;
 use i2cdev::core::*;
 use i2cdev::linux::LinuxI2CDevice;
@@ -28,6 +34,15 @@ pub struct Pcf8523 {
 }
 
 impl Pcf8523 {
+    /// Returns a new Pcf8523 using the specified path to an i2c-dev device.
+    ///
+    /// # Arguments
+    ///
+    /// * `i2cpath` - Path to the I2C device, e.g. /dev/i2c-1
+    ///
+    /// # Panics
+    ///
+    /// This function panics if there is an issue opening the device.
     pub fn new(i2cpath: &str) -> Pcf8523 {
         let i2caddr = 0x68;
         let mut dev = LinuxI2CDevice::new(i2cpath, i2caddr).unwrap();
@@ -37,6 +52,12 @@ impl Pcf8523 {
         }
     }
 
+    /// Returns the time in UTC from the device.
+    ///
+    /// # Panics
+    ///
+    /// Panics if there is an issue reading the I2C bus, or if the data stored
+    /// on the chip is not a valid UTC time.
     pub fn get_time(&mut self) -> chrono::DateTime<Utc> {
         let fields = self.dev.smbus_read_i2c_block_data(0x03, 7).unwrap();
         let sec = bcd_decode(fields[0]);
@@ -48,6 +69,13 @@ impl Pcf8523 {
         Utc.ymd(2000 + yr as i32, mon, day).and_hms(hour, min, sec)
     }
 
+    /// Programs the given time, in UTC, to the device.
+    ///
+    /// # Panics
+    ///
+    /// Panics if:
+    /// - The current year is < 2000 or >= 2100, or
+    /// - If there is an error writing to the I2C bus.
     pub fn set_time(&mut self, time: chrono::DateTime<Utc>) {
         let sec = bcd_encode(time.second());
         let min = bcd_encode(time.minute());

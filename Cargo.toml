@@ -1,5 +1,7 @@
 [package]
 name = "pcf8523"
+description = "A library to interact with PCF8523 devices"
+license = "MIT"
 version = "0.1.0"
 authors = ["Lane Kolbly <lane@rscheme.org>"]
 edition = "2018"

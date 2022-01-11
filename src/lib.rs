@@ -3,6 +3,7 @@
 //! `Pcf8523` is a crate which abstracts away managing a PCF8523 device on an
 //! I2C bus. You can read the time and write the time, and someday in the future
 //! do other configuration tasks as well.
+#![no_std]
 
 #![cfg_attr(not(feature = "std"), no_std)]
 extern crate embedded_hal as hal;

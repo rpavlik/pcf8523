@@ -1,13 +1,13 @@
 [package]
-name = "pcf8523"
-description = "A library to interact with PCF8523 devices"
-license = "MIT"
-version = "0.2.0"
 authors = ["Lane Kolbly <lane@rscheme.org>", "Ryan Pavlik <ryan.pavlik@collabora.com>"]
+categories = ["embedded", "no-std", "hardware-support"]
+description = "A library to interact with PCF8523 devices"
 edition = "2018"
 keywords = ["no-std", "io-expander", "expander", "embedded-hal", "i2c"]
-categories = ["embedded", "no-std", "hardware-support"]
+license = "MIT"
+name = "pcf8523"
+version = "0.2.0"
 
 [dependencies]
-chrono = "0.4.19"
+chrono = {version = "0.4.19", default-features = false}
 embedded-hal = "1.0.0-alpha.6"

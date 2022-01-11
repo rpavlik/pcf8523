@@ -9,7 +9,7 @@
 extern crate embedded_hal as hal;
 
 use chrono::{Datelike, TimeZone, Timelike, Utc};
-use hal::i2c::blocking::{Write, WriteRead};
+use hal::blocking::i2c::{Write, WriteRead};
 
 fn bcd_decode(x: u8) -> u32 {
     ((((x & 0xF0) >> 4) * 10) + (x & 0x0F)) as u32
